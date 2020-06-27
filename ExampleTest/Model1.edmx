@@ -1,0 +1,205 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="DUANModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="DangNhap">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="username" Type="nvarchar" MaxLength="50" />
+          <Property Name="password" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="NoiDung">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="namefile" Type="nvarchar" MaxLength="50" />
+          <Property Name="thoigian" Type="nvarchar" MaxLength="50" />
+          <Property Name="userId" Type="int" />
+          <Property Name="tag" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="XoaND">
+          <Key>
+            <PropertyRef Name="thoigian" />
+          </Key>
+          <Property Name="Id" Type="int" />
+          <Property Name="namefile" Type="nvarchar" MaxLength="50" />
+          <Property Name="thoigian" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="userId" Type="int" />
+          <Property Name="tag" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_NoiDung_DangNhap1">
+          <End Role="DangNhap" Type="Self.DangNhap" Multiplicity="0..1" />
+          <End Role="NoiDung" Type="Self.NoiDung" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DangNhap">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="NoiDung">
+              <PropertyRef Name="userId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DUANModelStoreContainer">
+          <EntitySet Name="DangNhap" EntityType="Self.DangNhap" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NoiDung" EntityType="Self.NoiDung" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="XoaND" EntityType="Self.XoaND" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_NoiDung_DangNhap1" Association="Self.FK_NoiDung_DangNhap1">
+            <End Role="DangNhap" EntitySet="DangNhap" />
+            <End Role="NoiDung" EntitySet="NoiDung" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DUANModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="DUANEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="DangNhaps" EntityType="DUANModel.DangNhap" />
+          <EntitySet Name="NoiDungs" EntityType="DUANModel.NoiDung" />
+          <EntitySet Name="sysdiagrams" EntityType="DUANModel.sysdiagram" />
+          <EntitySet Name="XoaNDs" EntityType="DUANModel.XoaND" />
+          <AssociationSet Name="FK_NoiDung_DangNhap1" Association="DUANModel.FK_NoiDung_DangNhap1">
+            <End Role="DangNhap" EntitySet="DangNhaps" />
+            <End Role="NoiDung" EntitySet="NoiDungs" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="DangNhap">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="NoiDungs" Relationship="DUANModel.FK_NoiDung_DangNhap1" FromRole="DangNhap" ToRole="NoiDung" />
+        </EntityType>
+        <EntityType Name="NoiDung">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="namefile" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="thoigian" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="userId" Type="Int32" />
+          <Property Name="tag" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="DangNhap" Relationship="DUANModel.FK_NoiDung_DangNhap1" FromRole="NoiDung" ToRole="DangNhap" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="XoaND">
+          <Key>
+            <PropertyRef Name="thoigian" />
+          </Key>
+          <Property Name="Id" Type="Int32" />
+          <Property Name="namefile" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="thoigian" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="userId" Type="Int32" />
+          <Property Name="tag" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_NoiDung_DangNhap1">
+          <End Type="DUANModel.DangNhap" Role="DangNhap" Multiplicity="0..1" />
+          <End Type="DUANModel.NoiDung" Role="NoiDung" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DangNhap">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="NoiDung">
+              <PropertyRef Name="userId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DUANModelStoreContainer" CdmEntityContainer="DUANEntities">
+          <EntitySetMapping Name="DangNhaps">
+            <EntityTypeMapping TypeName="DUANModel.DangNhap">
+              <MappingFragment StoreEntitySet="DangNhap">
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NoiDungs">
+            <EntityTypeMapping TypeName="DUANModel.NoiDung">
+              <MappingFragment StoreEntitySet="NoiDung">
+                <ScalarProperty Name="tag" ColumnName="tag" />
+                <ScalarProperty Name="userId" ColumnName="userId" />
+                <ScalarProperty Name="thoigian" ColumnName="thoigian" />
+                <ScalarProperty Name="namefile" ColumnName="namefile" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="DUANModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="XoaNDs">
+            <EntityTypeMapping TypeName="DUANModel.XoaND">
+              <MappingFragment StoreEntitySet="XoaND">
+                <ScalarProperty Name="tag" ColumnName="tag" />
+                <ScalarProperty Name="userId" ColumnName="userId" />
+                <ScalarProperty Name="thoigian" ColumnName="thoigian" />
+                <ScalarProperty Name="namefile" ColumnName="namefile" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

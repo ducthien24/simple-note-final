@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DUANModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="DUANEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="DangNhaps" EntityType="DUANModel.DangNhap" />
+    <EntitySet Name="NoiDungs" EntityType="DUANModel.NoiDung" />
+    <EntitySet Name="sysdiagrams" EntityType="DUANModel.sysdiagram" />
+    <EntitySet Name="XoaNDs" EntityType="DUANModel.XoaND" />
+    <AssociationSet Name="FK_NoiDung_DangNhap1" Association="DUANModel.FK_NoiDung_DangNhap1">
+      <End Role="DangNhap" EntitySet="DangNhaps" />
+      <End Role="NoiDung" EntitySet="NoiDungs" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="DangNhap">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="NoiDungs" Relationship="DUANModel.FK_NoiDung_DangNhap1" FromRole="DangNhap" ToRole="NoiDung" />
+  </EntityType>
+  <EntityType Name="NoiDung">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="namefile" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="thoigian" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="userId" Type="Int32" />
+    <Property Name="tag" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="DangNhap" Relationship="DUANModel.FK_NoiDung_DangNhap1" FromRole="NoiDung" ToRole="DangNhap" />
+  </EntityType>
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="XoaND">
+    <Key>
+      <PropertyRef Name="thoigian" />
+    </Key>
+    <Property Name="Id" Type="Int32" />
+    <Property Name="namefile" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="thoigian" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="userId" Type="Int32" />
+    <Property Name="tag" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <Association Name="FK_NoiDung_DangNhap1">
+    <End Type="DUANModel.DangNhap" Role="DangNhap" Multiplicity="0..1" />
+    <End Type="DUANModel.NoiDung" Role="NoiDung" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DangNhap">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="NoiDung">
+        <PropertyRef Name="userId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
